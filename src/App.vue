@@ -13,7 +13,7 @@ import { RouterLink, RouterView } from 'vue-router'
           to="/salary"
           class="text-sm font-medium transition-colors hover:opacity-80"
           style="color: var(--text-secondary);"
-          active-class="!text-accent"
+          active-class="text-accent"
         >
           工资
         </RouterLink>
@@ -21,7 +21,7 @@ import { RouterLink, RouterView } from 'vue-router'
           to="/management"
           class="text-sm font-medium transition-colors hover:opacity-80"
           style="color: var(--text-secondary);"
-          active-class="!text-accent"
+          active-class="text-accent"
         >
           管理
         </RouterLink>
