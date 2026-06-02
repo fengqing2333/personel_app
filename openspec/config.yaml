@@ -1,0 +1,12 @@
+schema: spec-driven
+
+context: |
+  项目名称：personel_app
+  技术栈：（待定）
+  描述：人员管理应用
+
+rules:
+  proposal:
+    - 包含 "Goals" 与 "Non-goals"
+  tasks:
+    - 任务按可交付物拆分，单任务建议 0.5-2 小时可完成
