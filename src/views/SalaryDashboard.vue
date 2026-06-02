@@ -1,19 +1,15 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useSalary } from '@/composables/useSalary'
 import { useLeave } from '@/composables/useLeave'
-import { loadHolidays, isWorkDay, getMonthWorkDays } from '@/utils/dateUtils'
+import { isWorkDay, getMonthWorkDays } from '@/utils/dateUtils'
 import { calcLeaveDeduction } from '@/utils/salaryEngine'
-import holidays from '@/data/holidays'
 import LiveCounter from '@/components/LiveCounter.vue'
 import StatsCards from '@/components/StatsCards.vue'
 import WeeklyChart from '@/components/WeeklyChart.vue'
+import SalarySettings from '@/components/SalarySettings.vue'
 
-onMounted(() => {
-  loadHolidays(holidays)
-})
-
-const { config, secondRate, dailyRate, todayEarned, now } = useSalary()
+const { config, secondRate, dailyRate, todayEarned, now, updateConfig } = useSalary()
 const { totalLeaveDaysThisMonth } = useLeave()
 
 const currentYear = computed(() => now.value.getFullYear())
@@ -100,6 +96,13 @@ const yearlyPassedWorkDays = computed(() => {
       :today-earned="todayEarned"
       :second-rate="secondRate"
       :daily-hours="config.dailyHours"
+    />
+
+    <SalarySettings
+      :config="config"
+      :second-rate="secondRate"
+      :daily-rate="dailyRate"
+      @update-config="updateConfig"
     />
   </div>
 </template>

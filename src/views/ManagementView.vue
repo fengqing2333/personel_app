@@ -1,17 +1,13 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useSalary } from '@/composables/useSalary'
 import { useLeave } from '@/composables/useLeave'
-import { loadHolidays, isWorkDay, getMonthWorkDays } from '@/utils/dateUtils'
-import holidays from '@/data/holidays'
+import { isWorkDay, getMonthWorkDays } from '@/utils/dateUtils'
 import WorkCalendar from '@/components/WorkCalendar.vue'
 import AttendancePanel from '@/components/AttendancePanel.vue'
+import SalarySettings from '@/components/SalarySettings.vue'
 
-onMounted(() => {
-  loadHolidays(holidays)
-})
-
-const { config, dailyRate, now } = useSalary()
+const { config, dailyRate, now, secondRate, updateConfig } = useSalary()
 const { records, addLeave, removeLeave, getLeaveCount } = useLeave()
 
 const calendarYear = ref(now.value.getFullYear())
@@ -90,28 +86,37 @@ function handleCalendarRemoveLeave(dateStr) {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-    <div class="lg:col-span-3">
-      <WorkCalendar
-        :year="calendarYear"
-        :month="calendarMonth"
-        :leave-records="records"
-        @update:year="calendarYear = $event"
-        @update:month="calendarMonth = $event"
-        @add-leave="handleCalendarAddLeave"
-        @remove-leave="handleCalendarRemoveLeave"
-      />
+  <div class="space-y-6">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <div class="lg:col-span-3">
+        <WorkCalendar
+          :year="calendarYear"
+          :month="calendarMonth"
+          :leave-records="records"
+          @update:year="calendarYear = $event"
+          @update:month="calendarMonth = $event"
+          @add-leave="handleCalendarAddLeave"
+          @remove-leave="handleCalendarRemoveLeave"
+        />
+      </div>
+      <div class="lg:col-span-2">
+        <AttendancePanel
+          :year="calendarYear"
+          :month="calendarMonth"
+          :leave-records="records"
+          :total-work-days="totalWorkDays"
+          :daily-rate="dailyRate"
+          :monthly-earned="monthlyEarnedVal"
+          @add-leave="handleQuickAddLeave"
+        />
+      </div>
     </div>
-    <div class="lg:col-span-2">
-      <AttendancePanel
-        :year="calendarYear"
-        :month="calendarMonth"
-        :leave-records="records"
-        :total-work-days="totalWorkDays"
-        :daily-rate="dailyRate"
-        :monthly-earned="monthlyEarnedVal"
-        @add-leave="handleQuickAddLeave"
-      />
-    </div>
+
+    <SalarySettings
+      :config="config"
+      :second-rate="secondRate"
+      :daily-rate="dailyRate"
+      @update-config="updateConfig"
+    />
   </div>
 </template>
