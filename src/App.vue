@@ -1,9 +1,17 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useTheme } from '@/composables/useTheme'
+import ThemeToggle from '@/components/ThemeToggle.vue'
+
+const { isDark, toggleTheme } = useTheme()
 </script>
 
 <template>
-  <div class="min-h-screen" style="background-color: var(--bg-primary); color: var(--text-primary);">
+  <div
+    class="min-h-screen"
+    :class="{ dark: isDark }"
+    style="background-color: var(--bg-primary); color: var(--text-primary);"
+  >
     <header
       class="flex items-center justify-between px-6 py-4 border-b"
       style="background-color: var(--bg-secondary); border-color: var(--border);"
@@ -27,8 +35,10 @@ import { RouterLink, RouterView } from 'vue-router'
         </RouterLink>
       </nav>
       <div class="flex items-center gap-4">
-        <!-- ThemeToggle placeholder -->
-        <span class="text-sm" style="color: var(--text-secondary);">ThemeToggle</span>
+        <ThemeToggle
+          :is-dark="isDark"
+          @toggle="toggleTheme"
+        />
       </div>
     </header>
 
