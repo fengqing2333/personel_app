@@ -7,7 +7,7 @@ const props = defineProps({
   leaveRecords: { type: Array, default: () => [] },
   totalWorkDays: { type: Number, default: 0 },
   dailyRate: { type: Number, default: 0 },
-  monthlyEarned: { type: Number, default: 0 }
+  attendedDays: { type: Number, default: 0 }
 })
 
 const emit = defineEmits(['add-leave'])
@@ -21,11 +21,6 @@ const leaveCount = computed(() => {
     const [y, m] = r.date.split('-').map(Number)
     return y === props.year && m === props.month + 1
   }).length
-})
-
-const attendedDays = computed(() => {
-  if (props.dailyRate <= 0) return 0
-  return Math.round(props.monthlyEarned / props.dailyRate)
 })
 
 const ratio = computed(() => {

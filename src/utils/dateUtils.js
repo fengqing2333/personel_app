@@ -5,8 +5,6 @@
  * 节假日数据通过 loadHolidays 加载，支持中国法定假日和调休补班逻辑。
  */
 
-import defaultHolidays from '../data/holidays.js'
-
 /** @type {Map<string, 'holiday'|'workday'>} */
 let holidayMap = new Map()
 
@@ -23,16 +21,13 @@ export function loadHolidays(holidayData) {
   }
 }
 
-// 自动加载默认节假日数据
-loadHolidays(defaultHolidays)
-
 /**
  * 将 Date 对象格式化为 YYYY-MM-DD 字符串
  *
  * @param {Date} date
  * @returns {string}
  */
-function dateToStr(date) {
+export function dateToStr(date) {
   const y = date.getFullYear()
   const m = String(date.getMonth() + 1).padStart(2, '0')
   const d = String(date.getDate()).padStart(2, '0')

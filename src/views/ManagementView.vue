@@ -58,10 +58,6 @@ const deduction = computed(() =>
   leaveCount.value * dailyRate.value
 )
 
-const monthlyEarnedVal = computed(() =>
-  Math.max(0, attendedDays.value * dailyRate.value)
-)
-
 function handleCalendarAddLeave(dateStr) {
   const input = window.prompt('请假类型：\n1 = 年假\n2 = 事假\n3 = 病假', '2')
   if (input === null) return
@@ -106,7 +102,7 @@ function handleCalendarRemoveLeave(dateStr) {
           :leave-records="records"
           :total-work-days="totalWorkDays"
           :daily-rate="dailyRate"
-          :monthly-earned="monthlyEarnedVal"
+          :attended-days="attendedDays"
           @add-leave="handleQuickAddLeave"
         />
       </div>

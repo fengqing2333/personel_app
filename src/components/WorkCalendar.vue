@@ -1,11 +1,6 @@
 <script setup>
-import { computed, onMounted } from 'vue'
-import { isWorkDay, loadHolidays } from '@/utils/dateUtils'
-import holidays from '@/data/holidays'
-
-onMounted(() => {
-  loadHolidays(holidays)
-})
+import { computed } from 'vue'
+import { isWorkDay } from '@/utils/dateUtils'
 
 const props = defineProps({
   year: { type: Number, default: () => new Date().getFullYear() },
