@@ -6,23 +6,28 @@ import { isWorkDay, getMonthWorkDays } from '@/utils/dateUtils'
 import WorkCalendar from '@/components/WorkCalendar.vue'
 import AttendancePanel from '@/components/AttendancePanel.vue'
 import SalarySettings from '@/components/SalarySettings.vue'
+import LeaveSelectModal from '@/components/LeaveSelectModal.vue'
 
-const { config, dailyRate, now, secondRate, updateConfig } = useSalary()
+const { config, dailyRate, nowDate, secondRate, updateConfig } = useSalary()
 const { records, addLeave, removeLeave, getLeaveCount } = useLeave()
 
-const calendarYear = ref(now.value.getFullYear())
-const calendarMonth = ref(now.value.getMonth())
+const calendarYear = ref(nowDate.value.getFullYear())
+const calendarMonth = ref(nowDate.value.getMonth())
+
+const showLeaveModal = ref(false)
+const pendingLeaveDate = ref('')
+const showQuickLeaveModal = ref(false)
 
 const isLastMonth = computed(() =>
-  calendarYear.value < now.value.getFullYear() ||
-  (calendarYear.value === now.value.getFullYear() && calendarMonth.value < now.value.getMonth())
+  calendarYear.value < nowDate.value.getFullYear() ||
+  (calendarYear.value === nowDate.value.getFullYear() && calendarMonth.value < nowDate.value.getMonth())
 )
 const isFutureMonth = computed(() =>
-  calendarYear.value > now.value.getFullYear() ||
-  (calendarYear.value === now.value.getFullYear() && calendarMonth.value > now.value.getMonth())
+  calendarYear.value > nowDate.value.getFullYear() ||
+  (calendarYear.value === nowDate.value.getFullYear() && calendarMonth.value > nowDate.value.getMonth())
 )
 const isCurrentMonth = computed(() =>
-  calendarYear.value === now.value.getFullYear() && calendarMonth.value === now.value.getMonth()
+  calendarYear.value === nowDate.value.getFullYear() && calendarMonth.value === nowDate.value.getMonth()
 )
 
 const daysInMonth = computed(() =>
@@ -40,8 +45,8 @@ const passedWorkDays = computed(() => {
   if (isLastMonth.value) return totalWorkDays.value
   if (isFutureMonth.value) return 0
   let count = 0
-  for (let d = 1; d <= now.value.getDate(); d++) {
-    if (isWorkDay(new Date(now.value.getFullYear(), now.value.getMonth(), d))) count++
+  for (let d = 1; d <= nowDate.value.getDate(); d++) {
+    if (isWorkDay(new Date(nowDate.value.getFullYear(), nowDate.value.getMonth(), d))) count++
   }
   return count
 })
@@ -59,21 +64,26 @@ const deduction = computed(() =>
 )
 
 function handleCalendarAddLeave(dateStr) {
-  const input = window.prompt('请假类型：\n1 = 年假\n2 = 事假\n3 = 病假', '2')
-  if (input === null) return
-  const trimmed = input.trim()
-  const typeMap = { '1': 'annual', '2': 'personal', '3': 'sick' }
-  if (typeMap[trimmed]) {
-    addLeave(dateStr, typeMap[trimmed])
-  }
+  pendingLeaveDate.value = dateStr
+  showLeaveModal.value = true
 }
 
-function handleQuickAddLeave(type) {
+function handleLeaveSelect(type) {
+  addLeave(pendingLeaveDate.value, type)
+  showLeaveModal.value = false
+}
+
+function handleQuickLeaveSelect(type) {
   const d = new Date()
   const y = d.getFullYear()
   const m = String(d.getMonth() + 1).padStart(2, '0')
   const day = String(d.getDate()).padStart(2, '0')
   addLeave(`${y}-${m}-${day}`, type)
+  showQuickLeaveModal.value = false
+}
+
+function handleQuickAddLeave() {
+  showQuickLeaveModal.value = true
 }
 
 function handleCalendarRemoveLeave(dateStr) {
@@ -113,6 +123,17 @@ function handleCalendarRemoveLeave(dateStr) {
       :second-rate="secondRate"
       :daily-rate="dailyRate"
       @update-config="updateConfig"
+    />
+
+    <LeaveSelectModal
+      v-if="showLeaveModal"
+      @select="handleLeaveSelect"
+      @close="showLeaveModal = false"
+    />
+    <LeaveSelectModal
+      v-if="showQuickLeaveModal"
+      @select="handleQuickLeaveSelect"
+      @close="showQuickLeaveModal = false"
     />
   </div>
 </template>

@@ -7,6 +7,7 @@
  */
 
 import { ref, watch } from 'vue'
+import { safeStorage } from '../utils/safeStorage'
 
 const STORAGE_KEY = 'theme'
 
@@ -26,13 +27,9 @@ export function useTheme() {
    * 从 localStorage 初始化主题状态
    */
   function initialize() {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY)
-      if (stored !== null) {
-        isDark.value = JSON.parse(stored)
-      }
-    } catch {
-      isDark.value = false
+    const stored = safeStorage.get(STORAGE_KEY)
+    if (stored !== null) {
+      isDark.value = stored
     }
     // Apply to html element
     if (isDark.value) {
@@ -54,7 +51,7 @@ export function useTheme() {
 
   // 自动持久化并同步 dark class 到 html 元素
   watch(isDark, (val) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(val))
+    safeStorage.set(STORAGE_KEY, val)
     if (val) {
       document.documentElement.classList.add('dark')
     } else {

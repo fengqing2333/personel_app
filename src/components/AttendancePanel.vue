@@ -96,15 +96,15 @@ const deduction = computed(() => leaveCount.value * props.dailyRate)
     <div class="flex gap-2 mb-3">
       <button
         class="leave-btn border-accent text-accent"
-        @click="emit('add-leave', 'annual')"
+        @click="emit('add-leave')"
       >+ 年假</button>
       <button
         class="leave-btn border-accent text-accent"
-        @click="emit('add-leave', 'personal')"
+        @click="emit('add-leave')"
       >+ 事假</button>
       <button
         class="leave-btn border-accent text-accent"
-        @click="emit('add-leave', 'sick')"
+        @click="emit('add-leave')"
       >+ 病假</button>
     </div>
 

@@ -7,6 +7,7 @@
 
 import { ref, computed } from 'vue'
 import { calcLeaveDeduction } from '../utils/salaryEngine'
+import { safeStorage } from '../utils/safeStorage'
 
 const STORAGE_KEY = 'leave-records'
 
@@ -16,23 +17,18 @@ const records = ref([])
 let initialized = false
 
 function loadRecords() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    records.value = stored ? JSON.parse(stored) : []
-  } catch {
-    records.value = []
-  }
+  records.value = safeStorage.get(STORAGE_KEY, [])
 }
 
 function saveRecords() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(records.value))
+  safeStorage.set(STORAGE_KEY, records.value)
 }
 
 /** 测试用：重置所有内部状态 */
 export function __resetForTests() {
   initialized = false
   records.value = []
-  try { localStorage.removeItem(STORAGE_KEY) } catch {}
+  safeStorage.remove(STORAGE_KEY)
 }
 
 export function useLeave() {

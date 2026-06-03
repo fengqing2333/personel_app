@@ -9,17 +9,17 @@ import StatsCards from '@/components/StatsCards.vue'
 import WeeklyChart from '@/components/WeeklyChart.vue'
 import SalarySettings from '@/components/SalarySettings.vue'
 
-const { config, secondRate, dailyRate, todayEarned, now, updateConfig } = useSalary()
+const { config, secondRate, dailyRate, todayEarned, nowDate, updateConfig } = useSalary()
 const { totalLeaveDaysThisMonth } = useLeave()
 
-const currentYear = computed(() => now.value.getFullYear())
-const currentMonth = computed(() => now.value.getMonth() + 1) // 1-indexed
+const currentYear = computed(() => nowDate.value.getFullYear())
+const currentMonth = computed(() => nowDate.value.getMonth() + 1) // 1-indexed
 
 /** Count work days passed in the current month (from 1st to today inclusive) */
 const passedWorkDays = computed(() => {
   const y = currentYear.value
   const m = currentMonth.value
-  const todayDate = now.value.getDate()
+  const todayDate = nowDate.value.getDate()
   let count = 0
   for (let d = 1; d <= todayDate; d++) {
     if (isWorkDay(new Date(y, m - 1, d))) count++
@@ -64,7 +64,7 @@ const progressPercent = computed(() => {
 const yearlyPassedWorkDays = computed(() => {
   const y = currentYear.value
   const m = currentMonth.value
-  const todayDate = now.value.getDate()
+  const todayDate = nowDate.value.getDate()
   let total = 0
   for (let monthIdx = 0; monthIdx < m - 1; monthIdx++) {
     total += getMonthWorkDays(y, monthIdx)
