@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { isWorkDay, getDayType, getMonthWorkDays, dateToStr } from '@/utils/dateUtils'
+import { getDayType, dateToStr } from '@/utils/dateUtils'
 
 const props = defineProps({
   year: { type: Number, default: () => new Date().getFullYear() },
@@ -297,7 +297,7 @@ const summary = computed(() => {
   opacity: 0.3;
 }
 .day-cell.is-today {
-  background: linear-gradient(135deg, #00c2ff, #0066ff);
+  background: var(--accent-gradient);
   color: #fff;
 }
 .day-cell.clickable {
