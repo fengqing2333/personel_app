@@ -47,6 +47,9 @@ export function dateToStr(date) {
  * @returns {boolean} 是否为工作日
  */
 export function isWorkDay(date) {
+  if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production' && holidayMap.size === 0) {
+    console.warn('[dateUtils] isWorkDay called but holidayMap is empty. Call loadHolidays() first.')
+  }
   const dateStr = dateToStr(date)
   const type = holidayMap.get(dateStr)
 

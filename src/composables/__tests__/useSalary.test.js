@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { useSalary } from '../useSalary'
+import { useSalary, __resetForTests } from '../useSalary'
 
 const DEFAULT_CONFIG = {
   monthlySalary: 9000,
@@ -12,8 +12,9 @@ describe('useSalary', () => {
 
   beforeEach(() => {
     localStorage.clear()
+    __resetForTests()
     salary = useSalary()
-    salary.loadConfig() // 强制从 localStorage 重新加载（确保预期状态）
+    salary.loadConfig()
   })
 
   afterEach(() => {

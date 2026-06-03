@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { useLeave } from '../useLeave'
+import { useLeave, __resetForTests } from '../useLeave'
 
 describe('useLeave', () => {
   beforeEach(() => {
     localStorage.clear()
+    __resetForTests()
   })
 
   describe('record management', () => {
