@@ -32,6 +32,22 @@ describe('isWorkDay', () => {
     // 2025-01-26 周日，春节调休补班
     expect(isWorkDay(new Date(2025, 0, 26))).toBe(true)
   })
+
+  // @golden: 特定日期验证 — 2026年劳动节调休补班
+  it('returns true for 2026-05-09 Labor Day makeup workday', () => {
+    // 2026-05-09 周六，劳动节调休补班
+    expect(isWorkDay(new Date(2026, 4, 9))).toBe(true)
+  })
+
+  it('returns true for 2026-04-26 Labor Day makeup workday', () => {
+    // 2026-04-26 周日，劳动节调休补班
+    expect(isWorkDay(new Date(2026, 3, 26))).toBe(true)
+  })
+
+  it('returns false for 2026-05-01 Labor Day holiday', () => {
+    // 2026-05-01 周五，劳动节法定假
+    expect(isWorkDay(new Date(2026, 4, 1))).toBe(false)
+  })
 })
 
 describe('getMonthWorkDays', () => {
