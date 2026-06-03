@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
+// @golden: 日期工具 - 工作日判定/节假日识别，日历功能基础
 import holidays from '../../data/holidays.js'
 import { loadHolidays, isWorkDay, getWorkSecondsToday, getMonthWorkDays } from '../dateUtils'
 

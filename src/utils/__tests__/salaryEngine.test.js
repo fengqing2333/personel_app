@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+// @golden: 核心计算 - 秒薪/日薪/扣薪计算，所有功能的基础
 import { calcSecondRate, calcDailyRate, calcEarnedBySeconds, calcLeaveDeduction } from '../salaryEngine'
 
 describe('calcSecondRate', () => {

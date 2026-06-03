@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+// @golden: 组件渲染 - 管理页组件正常挂载，无明显渲染错误
 
 describe('ManagementView', () => {
   it('应该能够正常渲染，不抛出错误', async () => {
