@@ -8,11 +8,11 @@ defineProps({
 <template>
   <div class="text-center">
     <div class="flex justify-center items-center gap-2 mb-2">
-      <span style="color: var(--text-secondary);" class="text-sm">今日实时工资</span>
+      <span class="text-sm text-text-secondary">今日实时工资</span>
       <span class="live-badge">LIVE</span>
     </div>
     <div class="salary-number">¥{{ todayEarned.toFixed(2) }}</div>
-    <div class="text-sm mt-1" style="color: var(--accent);">+¥{{ secondRate.toFixed(4) }}/秒</div>
+    <div class="text-sm mt-1 text-accent">+¥{{ secondRate.toFixed(4) }}/秒</div>
   </div>
 </template>
 

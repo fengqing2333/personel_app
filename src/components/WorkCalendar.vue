@@ -108,30 +108,28 @@ function handleDayClick(cell) {
     <!-- Header with month navigation -->
     <div class="flex items-center justify-between mb-3">
       <button
-        class="nav-btn"
-        style="color: var(--text-secondary);"
+        class="nav-btn text-text-secondary"
         @click="prevMonth"
       >&lsaquo;</button>
       <span class="text-base font-medium">{{ monthLabel }}</span>
       <button
-        class="nav-btn"
-        style="color: var(--text-secondary);"
+        class="nav-btn text-text-secondary"
         @click="nextMonth"
       >&rsaquo;</button>
     </div>
 
     <!-- Legend -->
-    <div class="flex items-center gap-4 mb-3 text-xs" style="color: var(--text-secondary);">
+    <div class="flex items-center gap-4 mb-3 text-xs text-text-secondary">
       <span class="flex items-center gap-1">
-        <span class="inline-block w-2 h-2 rounded-full" style="background: var(--accent);"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-accent"></span>
         工作
       </span>
       <span class="flex items-center gap-1">
-        <span class="inline-block w-2 h-2 rounded-full" style="background: var(--danger);"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-danger"></span>
         请假
       </span>
       <span class="flex items-center gap-1">
-        <span class="inline-block w-2 h-2 rounded-full" style="background: var(--text-secondary);"></span>
+        <span class="inline-block w-2 h-2 rounded-full bg-text-secondary"></span>
         休息
       </span>
     </div>
@@ -141,8 +139,7 @@ function handleDayClick(cell) {
       <div
         v-for="label in WEEKDAY_LABELS"
         :key="label"
-        class="text-center text-xs py-1 font-medium"
-        style="color: var(--text-secondary);"
+        class="text-center text-xs py-1 font-medium text-text-secondary"
       >
         {{ label }}
       </div>

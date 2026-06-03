@@ -91,8 +91,8 @@ const totalWeeklyEarned = computed(() =>
 <template>
   <div class="weekly-chart">
     <div class="flex justify-between items-center mb-3">
-      <span class="text-xs font-medium" style="color: var(--text-secondary);">本周</span>
-      <span class="text-xs" style="color: var(--text-secondary);">
+      <span class="text-xs font-medium text-text-secondary">本周</span>
+      <span class="text-xs text-text-secondary">
         累计: ¥{{ totalWeeklyEarned.toFixed(0) }}
       </span>
     </div>
@@ -118,7 +118,7 @@ const totalWeeklyEarned = computed(() =>
         </div>
         <span
           class="text-xs pt-1"
-          :style="{ color: day.isToday ? 'var(--accent)' : 'var(--text-secondary)' }"
+          :class="day.isToday ? 'text-accent' : 'text-text-secondary'"
         >
           {{ day.label }}
         </span>

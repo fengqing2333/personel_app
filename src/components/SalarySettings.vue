@@ -53,7 +53,7 @@ const hourlyRate = computed(() => {
 <template>
   <div class="card">
     <div class="flex items-center justify-between mb-4">
-      <h3 class="text-sm font-medium" style="color: var(--text-secondary);">薪资设置</h3>
+      <h3 class="text-sm font-medium text-text-secondary">薪资设置</h3>
       <button
         v-if="!editing"
         class="edit-btn"
@@ -66,25 +66,25 @@ const hourlyRate = computed(() => {
     <!-- 读取模式 -->
     <div v-if="!editing" class="space-y-3">
       <div class="flex flex-wrap gap-x-6 gap-y-2">
-        <span class="text-sm" style="color: var(--text-primary);">
+        <span class="text-sm text-text-primary">
           月薪 <strong>¥{{ Number(config.monthlySalary).toLocaleString() }}</strong>
         </span>
-        <span class="text-sm" style="color: var(--text-primary);">
+        <span class="text-sm text-text-primary">
           每日工时 <strong>{{ config.dailyHours }}h</strong>
         </span>
-        <span class="text-sm" style="color: var(--text-primary);">
+        <span class="text-sm text-text-primary">
           计薪方式 <strong>{{ config.workDaysPerMonth }}天</strong>
         </span>
-        <span class="text-sm" style="color: var(--text-primary);">
+        <span class="text-sm text-text-primary">
           秒薪 <strong>¥{{ secondRate.toFixed(4) }}</strong>
         </span>
       </div>
 
-      <div class="flex flex-wrap gap-x-6 gap-y-2 pt-2 border-t" style="border-color: var(--border);">
-        <span class="text-sm" style="color: var(--accent);">
+      <div class="flex flex-wrap gap-x-6 gap-y-2 pt-2 border-t border-border">
+        <span class="text-sm text-accent">
           日薪 ¥{{ dailyRate.toFixed(2) }}
         </span>
-        <span class="text-sm" style="color: var(--accent);">
+        <span class="text-sm text-accent">
           时薪 ¥{{ hourlyRate.toFixed(2) }}
         </span>
       </div>
@@ -94,7 +94,7 @@ const hourlyRate = computed(() => {
     <div v-else class="space-y-3">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
-          <label class="block text-xs mb-1" style="color: var(--text-secondary);">月薪（元）</label>
+          <label class="block text-xs mb-1 text-text-secondary">月薪（元）</label>
           <input
             v-model.number="editForm.monthlySalary"
             type="number"
@@ -103,7 +103,7 @@ const hourlyRate = computed(() => {
           />
         </div>
         <div>
-          <label class="block text-xs mb-1" style="color: var(--text-secondary);">每日工时（h）</label>
+          <label class="block text-xs mb-1 text-text-secondary">每日工时（h）</label>
           <input
             v-model.number="editForm.dailyHours"
             type="number"
@@ -113,7 +113,7 @@ const hourlyRate = computed(() => {
           />
         </div>
         <div>
-          <label class="block text-xs mb-1" style="color: var(--text-secondary);">计薪天数</label>
+          <label class="block text-xs mb-1 text-text-secondary">计薪天数</label>
           <input
             v-model.number="editForm.workDaysPerMonth"
             type="number"

@@ -20,7 +20,7 @@ function handleClick() {
     @click="handleClick"
   >
     <span class="theme-icon">{{ isDark ? '☀️' : '🌙' }}</span>
-    <span class="theme-label" style="color: var(--text-secondary);">
+    <span class="theme-label text-text-secondary">
       {{ isDark ? '亮色' : '暗色' }}
     </span>
   </button>

@@ -34,6 +34,12 @@ export function useTheme() {
     } catch {
       isDark.value = false
     }
+    // Apply to html element
+    if (isDark.value) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
   }
 
   /**
@@ -46,9 +52,14 @@ export function useTheme() {
   // 初始化时读取已保存的主题
   initialize()
 
-  // 自动持久化到 localStorage
+  // 自动持久化并同步 dark class 到 html 元素
   watch(isDark, (val) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(val))
+    if (val) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
   })
 
   return {

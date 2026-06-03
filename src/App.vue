@@ -22,28 +22,27 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="min-h-screen"
-    :class="{ dark: isDark }"
-    style="background-color: var(--bg-primary); color: var(--text-primary);"
-  >
+  <div class="min-h-screen" style="background: linear-gradient(160deg, #f0f8fe 0%, #faf5f0 40%, #f5faee 100%); color: var(--text-primary); position: relative;">
+    <!-- Top decorative bar -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00c2ff, #0066ff, #667eea); z-index: 10; pointer-events: none;"></div>
+
+    <!-- Background glow -->
+    <div style="position: fixed; top: 80px; left: 10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,194,255,0.04), transparent 70%); pointer-events: none; z-index: 0;"></div>
+
     <header
-      class="flex items-center justify-between px-6 py-4 border-b"
-      style="background-color: var(--bg-secondary); border-color: var(--border);"
+      class="flex items-center justify-between px-6 py-4 border-b bg-bg-secondary border-border"
     >
       <nav class="flex items-center gap-6">
         <RouterLink
           to="/salary"
-          class="text-sm font-medium transition-colors hover:opacity-80"
-          style="color: var(--text-secondary);"
+          class="text-sm font-medium transition-colors hover:opacity-80 text-text-secondary"
           active-class="text-accent"
         >
           工资
         </RouterLink>
         <RouterLink
           to="/management"
-          class="text-sm font-medium transition-colors hover:opacity-80"
-          style="color: var(--text-secondary);"
+          class="text-sm font-medium transition-colors hover:opacity-80 text-text-secondary"
           active-class="text-accent"
         >
           管理
@@ -57,9 +56,12 @@ onMounted(() => {
       </div>
     </header>
 
-    <main class="p-6">
+    <main class="p-6" style="position: relative; z-index: 1;">
       <RouterView />
     </main>
+
+    <!-- Bottom decorative bar -->
+    <div style="position: fixed; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #ffc107, #fb7185, #a277ff); opacity: 0.3; pointer-events: none; z-index: 10;"></div>
 
     <!-- 全屏沉浸浮动按钮 -->
     <button

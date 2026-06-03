@@ -43,7 +43,7 @@ const deduction = computed(() => leaveCount.value * props.dailyRate)
 
 <template>
   <div class="attendance-panel">
-    <div class="text-sm font-medium mb-4" style="color: var(--text-secondary);">本月出勤</div>
+    <div class="text-sm font-medium mb-4 text-text-secondary">本月出勤</div>
 
     <!-- Donut chart -->
     <div class="flex justify-center mb-4">
@@ -64,9 +64,9 @@ const deduction = computed(() => leaveCount.value * props.dailyRate)
           />
         </svg>
         <div class="absolute inset-0 flex items-center justify-center">
-          <span class="text-xs font-bold" style="color: var(--text-primary);">
+          <span class="text-xs font-bold text-text-primary">
             {{ attendedDays }}
-            <span style="color: var(--text-secondary);">/ {{ totalWorkDays }}天</span>
+            <span class="text-text-secondary">/ {{ totalWorkDays }}天</span>
           </span>
         </div>
       </div>
@@ -75,38 +75,35 @@ const deduction = computed(() => leaveCount.value * props.dailyRate)
     <!-- 4-grid detail -->
     <div class="grid grid-cols-4 gap-2 mb-4 text-center">
       <div>
-        <div class="text-sm font-semibold" style="color: var(--accent);">{{ attendedDays }}</div>
-        <div class="text-xs" style="color: var(--text-secondary);">出勤</div>
+        <div class="text-sm font-semibold text-accent">{{ attendedDays }}</div>
+        <div class="text-xs text-text-secondary">出勤</div>
       </div>
       <div>
-        <div class="text-sm font-semibold" style="color: var(--danger);">{{ leaveCount }}</div>
-        <div class="text-xs" style="color: var(--text-secondary);">请假</div>
+        <div class="text-sm font-semibold text-danger">{{ leaveCount }}</div>
+        <div class="text-xs text-text-secondary">请假</div>
       </div>
       <div>
-        <div class="text-sm font-semibold" style="color: var(--text-secondary);">{{ restDays }}</div>
-        <div class="text-xs" style="color: var(--text-secondary);">休息</div>
+        <div class="text-sm font-semibold text-text-secondary">{{ restDays }}</div>
+        <div class="text-xs text-text-secondary">休息</div>
       </div>
       <div>
-        <div class="text-sm font-semibold" style="color: var(--text-secondary);">{{ remainingDays }}</div>
-        <div class="text-xs" style="color: var(--text-secondary);">剩余</div>
+        <div class="text-sm font-semibold text-text-secondary">{{ remainingDays }}</div>
+        <div class="text-xs text-text-secondary">剩余</div>
       </div>
     </div>
 
     <!-- Quick leave buttons -->
     <div class="flex gap-2 mb-3">
       <button
-        class="leave-btn"
-        style="border-color: var(--accent); color: var(--accent);"
+        class="leave-btn border-accent text-accent"
         @click="emit('add-leave', 'annual')"
       >+ 年假</button>
       <button
-        class="leave-btn"
-        style="border-color: var(--accent); color: var(--accent);"
+        class="leave-btn border-accent text-accent"
         @click="emit('add-leave', 'personal')"
       >+ 事假</button>
       <button
-        class="leave-btn"
-        style="border-color: var(--accent); color: var(--accent);"
+        class="leave-btn border-accent text-accent"
         @click="emit('add-leave', 'sick')"
       >+ 病假</button>
     </div>
@@ -114,7 +111,7 @@ const deduction = computed(() => leaveCount.value * props.dailyRate)
     <!-- Deduction display -->
     <div
       class="text-sm"
-      :style="{ color: deduction > 0 ? 'var(--danger)' : 'var(--text-secondary)' }"
+      :class="deduction > 0 ? 'text-danger' : 'text-text-secondary'"
     >
       扣薪{{ deduction > 0 ? ' -' : ' ' }}¥{{ deduction.toFixed(2) }}
     </div>

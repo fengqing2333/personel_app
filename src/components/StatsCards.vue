@@ -13,7 +13,7 @@ defineProps({
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <!-- 本月已赚 -->
     <div class="card">
-      <div class="text-xs mb-2" style="color: var(--text-secondary);">本月已赚</div>
+      <div class="text-xs mb-2 text-text-secondary">本月已赚</div>
       <div class="stat-value">¥{{ Math.round(monthlyEarned).toLocaleString() }}</div>
       <div class="progress-bar mt-3">
         <div
@@ -21,21 +21,21 @@ defineProps({
           :style="{ width: Math.min(progressPercent, 100) + '%' }"
         ></div>
       </div>
-      <div class="text-xs mt-1" style="color: var(--accent);">{{ progressPercent.toFixed(1) }}%</div>
+      <div class="text-xs mt-1 text-accent">{{ progressPercent.toFixed(1) }}%</div>
     </div>
 
     <!-- 本月目标 -->
     <div class="card">
-      <div class="text-xs mb-2" style="color: var(--text-secondary);">本月目标</div>
+      <div class="text-xs mb-2 text-text-secondary">本月目标</div>
       <div class="stat-value">¥{{ Math.round(monthlyTarget).toLocaleString() }}</div>
-      <div class="text-xs mt-2" style="color: var(--text-secondary);">剩余 {{ remainingWorkDays }} 个工作日</div>
+      <div class="text-xs mt-2 text-text-secondary">剩余 {{ remainingWorkDays }} 个工作日</div>
     </div>
 
     <!-- 年度累计 -->
     <div class="card">
-      <div class="text-xs mb-2" style="color: var(--text-secondary);">年度累计</div>
+      <div class="text-xs mb-2 text-text-secondary">年度累计</div>
       <div class="stat-value">¥{{ Math.round(yearlyEarned).toLocaleString() }}</div>
-      <div class="text-xs mt-2" style="color: var(--text-secondary);">已过 {{ passedWorkDays }} 个工作日</div>
+      <div class="text-xs mt-2 text-text-secondary">已过 {{ passedWorkDays }} 个工作日</div>
     </div>
   </div>
 </template>
