@@ -6,12 +6,12 @@
   --bg-primary: #f0f8fe;
   --bg-secondary: #faf5f0;
   --bg-card: #ffffff;
-  --text-primary: #1a2a3a;
-  --text-secondary: #7a8ba3;
-  --accent: #00c2ff;
+  --text-primary: #0f172a;
+  --text-secondary: #4a5a6a;
+  --accent: #00a6e6;
   --accent-gradient: linear-gradient(135deg, #00c2ff, #0066ff);
-  --danger: #fb7185;
-  --border: rgba(0, 0, 0, 0.06);
+  --danger: #e35060;
+  --border: #dce2ec;
 }
 
 .dark {
