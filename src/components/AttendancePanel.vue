@@ -25,7 +25,7 @@ const leaveCount = computed(() => {
 
 const ratio = computed(() => {
   if (props.totalWorkDays <= 0) return 0
-  return Math.min(attendedDays.value / props.totalWorkDays, 1)
+  return Math.min(props.attendedDays / props.totalWorkDays, 1)
 })
 
 const dashOffset = computed(() => {
@@ -35,7 +35,7 @@ const dashOffset = computed(() => {
 const restDays = computed(() => Math.max(0, daysInMonth.value - props.totalWorkDays))
 
 const remainingDays = computed(() => {
-  return Math.max(0, props.totalWorkDays - attendedDays.value - leaveCount.value)
+  return Math.max(0, props.totalWorkDays - props.attendedDays - leaveCount.value)
 })
 
 const deduction = computed(() => leaveCount.value * props.dailyRate)
