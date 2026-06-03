@@ -19,10 +19,10 @@ defineProps({
 <style scoped>
 .salary-number {
   font-size: 3.25rem;
-  font-weight: 700;
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
   letter-spacing: 2px;
-  color: #fff;
+  color: var(--text-primary);
 }
 .live-badge {
   background: rgba(0, 194, 255, 0.1);

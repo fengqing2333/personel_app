@@ -49,9 +49,9 @@ defineProps({
 }
 .stat-value {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
-  color: #fff;
+  color: var(--text-primary);
 }
 .progress-bar {
   width: 100%;
