@@ -61,6 +61,36 @@ export function isWorkDay(date) {
 }
 
 /**
+ * 返回日期类型
+ *
+ * @param {Date} date - 待判断的日期
+ * @param {string[]} leaveDateStrs - 请假日期字符串数组 ["YYYY-MM-DD", ...]
+ * @returns {'work'|'holiday'|'leave'|'rest'|'makeup'}
+ *   work:    普通工作日
+ *   holiday: 法定节假日
+ *   leave:   已请假
+ *   rest:    周末/休息日
+ *   makeup:  调休补班
+ */
+export function getDayType(date, leaveDateStrs = []) {
+  const dateStr = dateToStr(date)
+
+  // Check leave first
+  if (leaveDateStrs.includes(dateStr)) return 'leave'
+
+  // Check holiday map
+  const type = holidayMap.get(dateStr)
+  if (type === 'workday') return 'makeup'
+  if (type === 'holiday') return 'holiday'
+
+  // Check weekend
+  const day = date.getDay()
+  if (day === 0 || day === 6) return 'rest'
+
+  return 'work'
+}
+
+/**
  * 计算今天从 00:00:00 到现在的工作秒数
  *
  * 如果今天不是工作日，返回 0。
