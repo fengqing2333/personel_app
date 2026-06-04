@@ -23,6 +23,7 @@ const navItems = [
   { path: '/', icon: '🏠', label: '概览' },
   { path: '/salary', icon: '💰', label: '工资' },
   { path: '/management', icon: '📅', label: '管理' },
+  { path: '/resume', icon: '📄', label: '简历' },
 ]
 </script>
 
