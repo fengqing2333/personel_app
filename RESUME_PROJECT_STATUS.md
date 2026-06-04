@@ -1,5 +1,4 @@
-done
-目完成状态一览
+# 项目完成状态一览
 
 > 更新日期：2026-06-04
 
@@ -9,7 +8,7 @@ done
 |------|------|
 | 当前分支 | master |
 | 未归档变更 | 无（全部已归档） |
-| 测试 | 82 passed / 0 failed |
+| 测试 | 84 passed / 0 failed |
 | 构建 | ✅ |
 
 ## 功能模块
@@ -22,7 +21,7 @@ done
 | 🏥 **请假管理** | V1.0.0 | ✅ 已完成 | 年假/事假/病假、自动扣薪 |
 | 🎨 **主题系统** | V1.1.0 | ✅ 已完成 | 暗色/亮色切换、V4 渐变 |
 | 📄 **简历储存** | V1.3.1 | ✅ 已完成 | 7类信息、时间线、localStorage |
-| 📋 **定制简历** | V1.4.1 | ⚠️ 页面框架完成 | 三步流程 UI + 假数据联动 |
+| 📋 **定制简历** | V1.4.2 | ⚠️ 页面框架完成 | 三步流程 UI + 假数据联动（运行时已修复） |
 
 ## 定制简历（阶段二）完成现状
 
@@ -53,3 +52,6 @@ done
 | portal-ui-unification | V1.3.2 | 全站 UI 统一 |
 | resume-customize-flow | V1.4.0 | 定制简历页面框架 |
 | resume-customize-data | V1.4.1 | 假数据+动态预览联动 |
+| fix-resume-customize-computed | V1.4.2 | 修复 ResumeCustomize 运行时崩溃（computed 未导入） |
+| fix-management-test-noise | V1.4.3 | 修复 ManagementView 测试节假日告警噪音 |
+| cleanup-archive-and-status | V1.4.4 | 清理归档异常嵌套与状态文档乱码 |

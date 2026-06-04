@@ -1,5 +1,4 @@
-done
- Data Layer
+## 1. Data Layer
 - [x] 1.1 Create useResume composable
 - [x] 1.2 Define data models for all 7 types
 

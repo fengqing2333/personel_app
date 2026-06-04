@@ -1,5 +1,4 @@
-artifacts done
-Colors
+## Colors
 Smoky blue vintage: bg #eef0f2, card #e4e6ea, text #2a2a3a, logo #5a6a8a
 
 ### Layout
