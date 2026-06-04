@@ -13,41 +13,38 @@ function goToStep2() {
 }
 
 // Step 2: 匹配推荐
-const mockEntries = ref([
-  {
-    id: 1,
-    company: '字节跳动',
-    position: '高级前端工程师',
-    startDate: '2021-03',
-    endDate: '2024-06',
-    match: 92,
-    tags: ['Vue.js', 'TypeScript', '团队管理'],
-    checked: true
-  },
-  {
-    id: 2,
-    company: '阿里巴巴',
-    position: '前端开发工程师',
-    startDate: '2019-07',
-    endDate: '2021-02',
-    match: 78,
-    tags: ['React', 'Node.js', '微前端'],
-    checked: false
-  },
-  {
-    id: 3,
-    company: '腾讯科技',
-    position: '全栈开发实习生',
-    startDate: '2018-06',
-    endDate: '2018-12',
-    match: 65,
-    tags: ['Python', 'Vue.js', 'MySQL'],
-    checked: false
-  }
+const entries = ref([
+  { id: 1, type: 'work', company: '字节跳动', position: '高级前端工程师', startDate: '2021.03', endDate: '2024.06', match: 92, desc: '负责核心业务前端架构设计，主导内部组件库建设，推动团队采用 Vue 3 + TypeScript 技术栈，优化首屏加载性能提升 40%。', tags: ['Vue 3', 'TypeScript', '组件库', '性能优化'], checked: true },
+  { id: 2, type: 'work', company: '阿里巴巴', position: '前端开发工程师', startDate: '2019.07', endDate: '2021.02', match: 78, desc: '参与中后台系统重构，基于 React + Ant Design 实现模块化开发，建立自动化测试体系。', tags: ['React', 'Node.js', '微前端'], checked: false },
+  { id: 3, type: 'internship', company: '腾讯科技', position: '前端开发实习生', startDate: '2018.06', endDate: '2018.12', match: 65, desc: '参与腾讯云控制台前端开发，使用 ECharts 实现实时监控大屏。', tags: ['Python', 'Vue 2', 'ECharts'], checked: false },
+  { id: 4, type: 'internship', company: '美团', position: 'Web 开发实习生', startDate: '2017.12', endDate: '2018.05', match: 58, desc: '参与商家端后台系统开发，负责订单管理模块维护。', tags: ['jQuery', 'Bootstrap'], checked: false },
+  { id: 5, type: 'project', name: 'UI-Verse 组件库', role: '核心维护者', startDate: '2023.01', endDate: '至今', match: 88, desc: '开发面向 Vue 3 的企业级组件库，包含 40+ 组件，GitHub 2k+ stars。', tags: ['Vue 3', 'Rollup', 'Storybook'], checked: true },
+  { id: 6, type: 'project', name: '实时协作白板', role: '全栈开发者', startDate: '2022.06', endDate: '2023.01', match: 72, desc: '基于 WebSocket + Canvas 实现多人实时协作白板。', tags: ['WebSocket', 'Canvas', 'WebRTC'], checked: false },
+  { id: 7, type: 'education', school: '北京大学', degree: '本科', major: '计算机科学与技术', startDate: '2015.09', endDate: '2019.06', match: 45, desc: 'GPA 3.8/4.0 · 校级优秀毕业生', tags: ['计算机'], checked: true },
+  { id: 8, type: 'skill', name: '技能清单', items: ['Vue 3/React', 'TypeScript', 'Node.js', 'Webpack/Vite', 'Docker'], match: 95, checked: true }
 ])
 
+const checkedCount = computed(() => entries.value.filter(e => e.checked).length)
+
+const selectedEntries = computed(() => entries.value.filter(e => e.checked))
+
+const previewSections = computed(() => {
+  const s = []
+  const w = selectedEntries.value.filter(e => e.type === 'work')
+  if (w.length) s.push({ title: '💼 工作经历', entries: w })
+  const i = selectedEntries.value.filter(e => e.type === 'internship')
+  if (i.length) s.push({ title: '🔬 实习经历', entries: i })
+  const p = selectedEntries.value.filter(e => e.type === 'project')
+  if (p.length) s.push({ title: '🚀 项目经验', entries: p })
+  const e = selectedEntries.value.filter(e => e.type === 'education')
+  if (e.length) s.push({ title: '🎓 教育背景', entries: e })
+  const sk = selectedEntries.value.filter(e => e.type === 'skill')
+  if (sk.length) s.push({ title: '🏷️ 技能', entries: sk })
+  return s
+})
+
 function toggleCheck(id) {
-  const entry = mockEntries.value.find(e => e.id === id)
+  const entry = entries.value.find(e => e.id === id)
   if (entry) entry.checked = !entry.checked
 }
 
@@ -180,12 +177,14 @@ const steps = [
 
       <!-- Step 2: 匹配推荐 -->
       <div v-if="currentStep === 2" class="card">
-        <h2 class="text-lg font-semibold mb-1" style="color: #2a2a3a;">匹配推荐</h2>
-        <p class="text-xs mb-5" style="color: #8a92a0;">选择要用于定制简历的经历条目</p>
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-lg font-semibold" style="color:#2a2a3a;">匹配推荐</h2>
+          <span class="text-xs px-2.5 py-1 rounded-full" style="background:rgba(90,106,138,0.1);color:#5a6a8a;">已选 {{ checkedCount }} / {{ entries.length }}</span>
+        </div>
 
         <div class="space-y-3">
           <div
-            v-for="entry in mockEntries"
+            v-for="entry in entries"
             :key="entry.id"
             class="flex items-start gap-4 p-4 rounded-xl transition-all cursor-pointer"
             :style="{
@@ -252,86 +251,40 @@ const steps = [
         </div>
       </div>
 
-      <!-- Step 3: 预览 -->
+      <!-- Step 3: 动态预览 -->
       <div v-if="currentStep === 3" class="card">
-        <h2 class="text-lg font-semibold mb-4" style="color: #2a2a3a;">简历预览</h2>
-
-        <div class="rounded-xl p-6" style="background: #fafafa; border: 1px solid #d5d8de;">
-          <!-- Profile Summary -->
-          <div class="mb-6">
-            <h3 class="text-base font-bold mb-2" style="color: #2a2a3a;">个人简介</h3>
-            <p class="text-sm leading-relaxed" style="color: #5a6a8a;">
-              拥有 5 年前端开发经验，精通 Vue.js/React 等主流框架，具备大型项目架构设计能力。
-              曾在字节跳动主导前端基建项目，推动团队工程化水平提升。热爱技术，善于团队协作。
-            </p>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold" style="color:#2a2a3a;">简历预览</h2>
+          <span class="text-xs" style="color:#8a92a0;">{{ companyName || '目标公司' }} · {{ position || '目标岗位' }}</span>
+        </div>
+        <div class="rounded-xl p-6" style="background:#fafafa;border:1px solid #d5d8de;">
+          <div class="text-center mb-6 pb-6" style="border-bottom:1px solid #d5d8de;">
+            <div class="text-lg font-bold" style="color:#2a2a3a;">个人简历</div>
+            <div class="text-sm mt-1" style="color:#5a6a8a;">{{ position || '目标岗位' }}</div>
           </div>
-
-          <hr class="mb-6" style="border-color: #d5d8de;" />
-
-          <!-- Work Experience -->
-          <div class="mb-6">
-            <h3 class="text-base font-bold mb-3" style="color: #2a2a3a;">工作经历</h3>
-            <div class="space-y-4">
-              <div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-semibold" style="color: #2a2a3a;">字节跳动</span>
-                  <span class="text-xs" style="color: #8a92a0;">2021.03 — 2024.06</span>
-                </div>
-                <p class="text-xs mt-0.5" style="color: #5a6a8a;">高级前端工程师</p>
-                <p class="text-sm mt-1.5 leading-relaxed" style="color: #5a6a8a;">
-                  负责核心业务前端架构设计，主导内部组件库建设，推动团队采用 Vue 3 + TypeScript 技术栈，
-                  优化首屏加载性能提升 40%。
-                </p>
+          <div v-for="(section, si) in previewSections" :key="si" class="mb-5 pb-5" :style="{ 'border-bottom': si < previewSections.length - 1 ? '1px solid #d5d8de' : 'none' }">
+            <div class="text-sm font-semibold mb-3" style="color:#5a6a8a;">{{ section.title }}</div>
+            <div v-for="(entry, ei) in section.entries" :key="ei" class="mb-3 pb-3" :style="{ 'border-bottom': ei < section.entries.length - 1 ? '1px dashed #e4e6ea' : 'none' }">
+              <div class="flex justify-between items-baseline">
+                <span class="text-sm font-semibold" style="color:#2a2a3a;">{{ entry.company || entry.name || entry.school }}</span>
+                <span class="text-xs" style="color:#8a92a0;">{{ entry.startDate }} — {{ entry.endDate || '至今' }}</span>
               </div>
-              <div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-semibold" style="color: #2a2a3a;">阿里巴巴</span>
-                  <span class="text-xs" style="color: #8a92a0;">2019.07 — 2021.02</span>
-                </div>
-                <p class="text-xs mt-0.5" style="color: #5a6a8a;">前端开发工程师</p>
-                <p class="text-sm mt-1.5 leading-relaxed" style="color: #5a6a8a;">
-                  参与中后台系统重构，基于 React + Ant Design 实现模块化开发，
-                  建立自动化测试体系，保障代码质量。
-                </p>
+              <div class="text-xs mt-0.5" style="color:#5a6a8a;">{{ entry.position || entry.role || entry.degree }}{{ entry.major ? ' · ' + entry.major : '' }}</div>
+              <div v-if="entry.desc" class="text-xs mt-1.5 leading-relaxed" style="color:#5a6a8a;">{{ entry.desc }}</div>
+              <div v-if="entry.items" class="flex gap-1.5 mt-1.5 flex-wrap">
+                <span v-for="item in entry.items" :key="item" class="px-2 py-0.5 rounded text-xs" style="background:rgba(90,106,138,0.08);color:#5a6a8a;">{{ item }}</span>
               </div>
             </div>
           </div>
-
-          <hr class="mb-6" style="border-color: #d5d8de;" />
-
-          <!-- Education -->
-          <div>
-            <h3 class="text-base font-bold mb-3" style="color: #2a2a3a;">教育背景</h3>
-            <div class="flex items-center justify-between">
-              <div>
-                <span class="text-sm font-semibold" style="color: #2a2a3a;">北京大学</span>
-                <span class="text-sm ml-2" style="color: #5a6a8a;">计算机科学与技术</span>
-              </div>
-              <span class="text-xs" style="color: #8a92a0;">2015.09 — 2019.06</span>
-            </div>
-            <p class="text-xs mt-1" style="color: #8a92a0;">本科 · 学士学位</p>
+          <div v-if="previewSections.length === 0" class="text-center py-8 text-sm" style="color:#8a92a0;">
+            未选中任何条目，请返回上一步勾选经历
           </div>
         </div>
-
         <div class="flex justify-between mt-6">
-          <button
-            class="px-5 py-3 rounded-xl text-sm font-medium transition-all"
-            style="background: #e4e6ea; color: #5a6a8a;"
-            @click="goToStep2Back"
-          >
-            上一步
-          </button>
-          <button
-            class="px-5 py-3 rounded-xl text-sm font-medium transition-all"
-            style="background: #5a6a8a; color: #fff;"
-            @click="handleSave"
-          >
-            保存
-          </button>
+          <button class="px-5 py-3 rounded-xl text-sm font-medium" style="background:#e4e6ea;color:#5a6a8a;" @click="goToStep2Back">上一步</button>
+          <button class="px-5 py-3 rounded-xl text-sm font-medium text-white" style="background:#5a6a8a;" @click="handleSave">保存</button>
         </div>
-      </div>
-
-      <!-- Bottom Section: AI 增强 -->
+      </div><!-- Bottom Section: AI 增强 -->
       <div class="card mt-6">
         <h2 class="text-sm font-semibold mb-3" style="color: #2a2a3a;">AI 增强</h2>
         <div class="flex items-center gap-3">
