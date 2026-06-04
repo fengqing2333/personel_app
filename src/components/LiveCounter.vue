@@ -25,12 +25,12 @@ defineProps({
   color: var(--text-primary);
 }
 .live-badge {
-  background: rgba(0, 194, 255, 0.1);
-  border: 1px solid rgba(0, 194, 255, 0.2);
+  background: rgba(90, 106, 138, 0.1);
+  border: 1px solid rgba(90, 106, 138, 0.2);
   border-radius: 20px;
   padding: 2px 10px;
   font-size: 10px;
-  color: #00c2ff;
+  color: var(--accent);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -39,7 +39,7 @@ defineProps({
   content: '';
   width: 5px;
   height: 5px;
-  background: #00c2ff;
+  background: var(--accent);
   border-radius: 50%;
   animation: pulse 1.5s infinite;
 }

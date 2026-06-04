@@ -28,7 +28,7 @@ const navItems = [
 </script>
 
 <template>
-  <div class="flex min-h-screen" :class="{ dark: isDark }" style="background: #faf6f0;">
+  <div class="flex min-h-screen" :class="{ dark: isDark }" style="background: var(--bg-primary);">
     <!-- Sidebar -->
     <aside class="flex flex-col w-[220px] shrink-0" style="background: linear-gradient(180deg, #1a0e2e, #2a1a3e);">
       <div class="px-6 pt-8 pb-8">
@@ -58,10 +58,10 @@ const navItems = [
     <!-- Main content area -->
     <main class="flex-1 overflow-auto" style="position: relative; z-index: 1;">
       <!-- Top decorative bar -->
-      <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #00c2ff, #0066ff, #667eea); z-index: 10; pointer-events: none;"></div>
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #5a6a8a, #4a5a7a, #667eea); z-index: 10; pointer-events: none;"></div>
 
       <!-- Background glow -->
-      <div style="position: fixed; top: 80px; left: 10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,194,255,0.04), transparent 70%); pointer-events: none; z-index: 0;"></div>
+      <div style="position: fixed; top: 80px; left: 10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(90,106,138,0.04), transparent 70%); pointer-events: none; z-index: 0;"></div>
 
       <div class="p-6">
         <RouterView />

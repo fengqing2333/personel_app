@@ -122,7 +122,7 @@ const deduction = computed(() => leaveCount.value * props.dailyRate)
 .attendance-panel {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 16px;
 }
 
