@@ -20,6 +20,11 @@ const routes = [
     path: '/resume',
     name: 'ResumeView',
     component: () => import('@/views/ResumeView.vue')
+  },
+  {
+    path: '/resume/customize',
+    name: 'ResumeCustomize',
+    component: () => import('@/views/ResumeCustomize.vue')
   }
 ]
 
