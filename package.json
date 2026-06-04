@@ -11,8 +11,12 @@
     "test:watch": "vitest",
     "test:golden": "vitest run src/utils/__tests__/salaryEngine.golden.test.js src/utils/__tests__/dateUtils.golden.test.js",
     "check:workflow": "node scripts/check-workflow.mjs",
+    "check:commit-msg": "node scripts/check-commit-msg.mjs",
+    "check:spec-sync": "node scripts/check-spec-sync.mjs",
+    "check:all": "npm run check:workflow && npm run check:spec-sync && npm run test:golden",
     "lint": "eslint src/**/*.{vue,js} --fix",
-    "format": "prettier --write src/**/*.{vue,js}"
+    "format": "prettier --write src/**/*.{vue,js}",
+    "prepare": "husky"
   },
   "dependencies": {
     "vue": "^3.4.0",
@@ -25,6 +29,7 @@
     "autoprefixer": "^10.4.0",
     "eslint": "^10.4.1",
     "eslint-plugin-vue": "^10.9.2",
+    "husky": "^9.1.7",
     "jsdom": "^24.0.0",
     "postcss": "^8.4.0",
     "prettier": "^3.8.3",

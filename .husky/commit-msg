@@ -1,0 +1,4 @@
+# personel_app commit-msg
+# 校验 commit message 必须以 [V<MAJOR>.<MINOR>.<PATCH>] 开头
+# 依据：openspec/specs/workflow/spec.md 补充规则 #7
+node scripts/check-commit-msg.mjs "$1" || exit 1

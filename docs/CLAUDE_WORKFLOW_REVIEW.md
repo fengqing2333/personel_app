@@ -1,5 +1,15 @@
 # CLAUDE.md 与工作流规范审视报告
 
+> ⚠️ **状态：已完成（历史归档）** — 2026-06-04
+>
+> 本报告中提出的 6 项优化建议已全部落地至 [`openspec/specs/workflow/spec.md`](../openspec/specs/workflow/spec.md)（阶段闸门表、`review.md` 模板、规约同步硬约束、自动化校验脚本 [`scripts/check-workflow.mjs`](../scripts/check-workflow.mjs) 等）。
+>
+> 本文件仅作为历史决策记录保留，**不再作为待办事项追踪**。新的规范变更请走 OpenSpec 流程。
+
+---
+
+# 原始报告内容（仅供溯源）
+
 > **审视人**: JoyCode AI 代码审查助手
 > **审视日期**: 2026-06-03
 > **审视对象**:

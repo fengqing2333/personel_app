@@ -1,9 +1,9 @@
 schema: spec-driven
 
 context: |
-  项目名称：personel_app
-  技术栈：（待定）
-  描述：人员管理应用
+  项目名称：personel_app（Personal Portal）
+  技术栈：Vue 3.4 + Vite 8 + Tailwind CSS 3.4 + Vitest 3.2（前端纯本地应用，localStorage 存储）
+  描述：个人效率工具集合，包含实时工资计算、工作日历、请假管理、主题系统、简历储存与定制简历等模块
 
 rules:
   proposal:

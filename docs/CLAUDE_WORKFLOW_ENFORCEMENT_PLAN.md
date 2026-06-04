@@ -1,6 +1,16 @@
 # 工作流规范强化 — 落地计划
 
-> **目标**: 把 [`docs/CLAUDE_WORKFLOW_REVIEW.md`](docs/CLAUDE_WORKFLOW_REVIEW.md) 提出的 6 条优化建议,转化为可执行、可验收的工程动作。
+> ⚠️ **状态：已完成（历史归档）** — 2026-06-04
+>
+> 本计划中的 P0/P1 全部 6 项任务已通过 OpenSpec 变更 `v1-2-0-workflow-enforcement-2` 与 `v1-3-0-workflow-enforcement` 落地，并合并入 [`openspec/specs/workflow/spec.md`](../openspec/specs/workflow/spec.md)。校验脚本 [`scripts/check-workflow.mjs`](../scripts/check-workflow.mjs) 已生效。
+>
+> 本文件仅作为历史决策记录保留，**不再作为待办事项追踪**。
+
+---
+
+# 原始计划内容（仅供溯源）
+
+> **目标**: 把 [`docs/CLAUDE_WORKFLOW_REVIEW.md`](CLAUDE_WORKFLOW_REVIEW.md) 提出的 6 条优化建议,转化为可执行、可验收的工程动作。
 > **核心诉求**: 每次执行都符合规范流程、保持规约同步、不跳过规约。
 > **预计总工时**: P0 约 2.5 小时,P1 约 4 小时
 > **建议路径**: 本身就是一次"规范变更",应通过 OpenSpec 流程实施 — 即先创建变更提案 `v1-1-0-workflow-enforcement`,再分步落地。

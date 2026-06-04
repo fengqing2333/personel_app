@@ -1,0 +1,14 @@
+# personel_app pre-commit
+# 依据：openspec/specs/workflow/spec.md 阶段闸门 + 规约同步硬约束
+#
+# 顺序与原因：
+#  1. check:workflow — 阶段闸门（变更目录结构、必备制品）
+#  2. check:spec-sync — 规约同步硬约束（src/ 行为变更必须伴随 specs/ 同步）
+#  3. test:golden — 黄金用例 L1（< 5s），防止破坏核心路径
+#
+# 跳过办法（务必慎用，需事后留痕）：
+#  - 整体跳过：git commit --no-verify
+#  - 仅放行规约同步：SKIP_SPEC_SYNC=1 git commit ...
+npm run check:workflow || exit 1
+node scripts/check-spec-sync.mjs || exit 1
+npm run test:golden || exit 1
