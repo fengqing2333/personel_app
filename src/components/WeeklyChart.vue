@@ -91,7 +91,7 @@ const totalWeeklyEarned = computed(() =>
 <template>
   <div class="weekly-chart">
     <div class="flex justify-between items-center mb-3">
-      <span class="text-xs font-medium text-text-secondary">本周</span>
+      <span class="text-xs font-medium text-text-secondary" style="font-family: Georgia, serif;">本周</span>
       <span class="text-xs text-text-secondary">
         累计: ¥{{ totalWeeklyEarned.toFixed(0) }}
       </span>
@@ -131,14 +131,14 @@ const totalWeeklyEarned = computed(() =>
 .weekly-chart {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 16px;
 }
 .bar {
   width: 100%;
   max-width: 28px;
   border-radius: 4px 4px 0 0;
-  background: var(--accent-gradient);
+  background: var(--accent);
   transition: height 0.3s ease;
   min-height: 2px;
 }

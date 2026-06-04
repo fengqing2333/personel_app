@@ -110,8 +110,8 @@ onUnmounted(() => {
   position: absolute;
   top: 24px;
   right: 24px;
-  background: rgba(0, 194, 255, 0.1);
-  border: 1px solid rgba(0, 194, 255, 0.2);
+  background: rgba(90, 106, 138, 0.1);
+  border: 1px solid rgba(90, 106, 138, 0.2);
   border-radius: 8px;
   padding: 8px 20px;
   font-size: 14px;
@@ -122,7 +122,7 @@ onUnmounted(() => {
 }
 
 .close-btn:hover {
-  background: rgba(0, 194, 255, 0.2);
+  background: rgba(90, 106, 138, 0.2);
 }
 
 .overlay-content {

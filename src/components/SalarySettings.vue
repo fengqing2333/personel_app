@@ -137,13 +137,13 @@ const hourlyRate = computed(() => {
 .card {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 16px;
 }
 
 .edit-btn {
-  background: rgba(0, 194, 255, 0.1);
-  border: 1px solid rgba(0, 194, 255, 0.2);
+  background: rgba(90, 106, 138, 0.1);
+  border: 1px solid rgba(90, 106, 138, 0.2);
   border-radius: 6px;
   padding: 4px 12px;
   font-size: 12px;
@@ -153,11 +153,11 @@ const hourlyRate = computed(() => {
 }
 
 .edit-btn:hover {
-  background: rgba(0, 194, 255, 0.2);
+  background: rgba(90, 106, 138, 0.2);
 }
 
 .save-btn {
-  background: var(--accent-gradient);
+  background: var(--accent);
   border: none;
   border-radius: 6px;
   padding: 6px 20px;

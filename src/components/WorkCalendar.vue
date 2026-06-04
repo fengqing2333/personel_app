@@ -170,7 +170,7 @@ const summary = computed(() => {
         class="nav-btn text-text-secondary"
         @click="prevMonth"
       >&lsaquo;</button>
-      <span class="text-base font-medium">{{ monthLabel }}</span>
+      <span class="text-base font-medium" style="font-family: Georgia, serif;">{{ monthLabel }}</span>
       <button
         class="nav-btn text-text-secondary"
         @click="nextMonth"
@@ -182,7 +182,7 @@ const summary = computed(() => {
       <span class="flex items-center gap-1">
         <span
           class="inline-flex items-center justify-center w-3.5 h-3.5 rounded text-[10px] font-semibold leading-none"
-          style="background-color: rgba(0, 194, 255, 0.15); color: var(--accent);"
+          style="background-color: rgba(90, 106, 138, 0.15); color: var(--accent);"
         >班</span>
         出勤
       </span>
@@ -268,7 +268,7 @@ const summary = computed(() => {
 .work-calendar {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 16px;
 }
 
@@ -282,7 +282,7 @@ const summary = computed(() => {
   transition: background-color 0.2s;
 }
 .nav-btn:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(90, 106, 138, 0.1);
 }
 
 .day-cell {
@@ -297,7 +297,7 @@ const summary = computed(() => {
   opacity: 0.3;
 }
 .day-cell.is-today {
-  background: var(--accent-gradient);
+  background: var(--accent);
   color: #fff;
 }
 .day-cell.clickable {

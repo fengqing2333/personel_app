@@ -43,7 +43,7 @@ const deduction = computed(() => leaveCount.value * props.dailyRate)
 
 <template>
   <div class="attendance-panel">
-    <div class="text-sm font-medium mb-4 text-text-secondary">本月出勤</div>
+    <div class="text-sm font-medium mb-4 text-text-secondary" style="font-family: Georgia, serif;">本月出勤</div>
 
     <!-- Donut chart -->
     <div class="flex justify-center mb-4">
@@ -122,7 +122,7 @@ const deduction = computed(() => leaveCount.value * props.dailyRate)
 .attendance-panel {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 16px;
 }
 
