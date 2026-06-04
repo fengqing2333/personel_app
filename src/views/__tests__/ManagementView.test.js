@@ -1,5 +1,12 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
+import { loadHolidays } from '@/utils/dateUtils'
+import holidays from '@/data/holidays'
 // @golden: 组件渲染 - 管理页组件正常挂载，无明显渲染错误
+
+beforeAll(() => {
+  // 与 App.vue:18 的生产行为对齐，避免 isWorkDay 触发 holidayMap empty 警告
+  loadHolidays(holidays)
+})
 
 describe('ManagementView', () => {
   it('应该能够正常渲染，不抛出错误', async () => {
