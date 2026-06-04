@@ -44,7 +44,7 @@ defineProps({
 .card {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 16px;
 }
 .stat-value {
@@ -56,13 +56,13 @@ defineProps({
 .progress-bar {
   width: 100%;
   height: 4px;
-  background-color: var(--border);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
   overflow: hidden;
 }
 .progress-fill {
   height: 100%;
-  background: var(--accent);
+  background: var(--accent-gradient);
   border-radius: 2px;
   transition: width 0.5s ease;
 }
