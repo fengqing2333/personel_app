@@ -16,6 +16,11 @@ export default {
         'accent': 'var(--accent)',
         'danger': 'var(--danger)',
         'border': 'var(--border)',
+        'portal-bg': '#faf6f0',
+        'portal-text': '#3a2a1a',
+        'portal-muted': '#9a8a7a',
+        'sidebar': '#1a0e2e',
+        'sidebar-hover': '#2a1a3e',
       }
     }
   },
