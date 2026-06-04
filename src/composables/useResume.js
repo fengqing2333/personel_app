@@ -44,7 +44,13 @@ export function useResume() {
   }
 
   function getByType(type) {
-    return entries.value.filter(e => e.type === type)
+    return entries.value
+      .filter(e => e.type === type)
+      .sort((a, b) => {
+        const aDate = a.startDate || ''
+        const bDate = b.startDate || ''
+        return bDate.localeCompare(aDate)
+      })
   }
 
   function add(type, data) {

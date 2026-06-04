@@ -49,8 +49,8 @@ const emit = defineEmits(['edit', 'delete'])
             <h3 class="text-lg font-bold truncate" style="color: var(--resume-text, #2a2a3a); font-size: 18px;">
               {{ entry.company || entry.name || entry.school || entry.issuer || entry.title || entry.skillName }}
             </h3>
-            <p v-if="entry.position || entry.role || entry.degree || entry.category" class="text-sm mt-0.5" style="color: #5a6a8a;">
-              {{ entry.position || entry.role || entry.degree }}<template v-if="entry.field"> — {{ entry.field }}</template>
+            <p v-if="entry.position || entry.role || entry.degree || entry.title || entry.category" class="text-sm mt-0.5" style="color: #5a6a8a;">
+              {{ entry.position || entry.role || entry.degree || entry.title }}<template v-if="entry.field"> — {{ entry.field }}</template>
             </p>
           </div>
           <!-- Action buttons -->
