@@ -15,6 +15,11 @@ const routes = [
     path: '/management',
     name: 'ManagementView',
     component: () => import('@/views/ManagementView.vue')
+  },
+  {
+    path: '/resume',
+    name: 'ResumeView',
+    component: () => import('@/views/ResumeView.vue')
   }
 ]
 
