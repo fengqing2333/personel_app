@@ -1,14 +1,14 @@
 # 项目完成状态一览
 
-> 更新日期：2026-06-04
+> 更新日期：2026-06-05
 
 ## 仓库状态
 
 | 项目 | 状态 |
 |------|------|
 | 当前分支 | master |
-| 未归档变更 | 无（全部已归档） |
-| 测试 | 84 passed / 0 failed |
+| 未归档变更 | 无 |
+| 测试 | 96 passed / 0 failed |
 | 构建 | ✅ |
 
 ## 功能模块
@@ -55,3 +55,4 @@
 | fix-resume-customize-computed | V1.4.2 | 修复 ResumeCustomize 运行时崩溃（computed 未导入） |
 | fix-management-test-noise | V1.4.3 | 修复 ManagementView 测试节假日告警噪音 |
 | cleanup-archive-and-status | V1.4.4 | 清理归档异常嵌套与状态文档乱码 |
+| resume-portal-redesign | V1.5.0 | ✅ 已完成 | 简历页面个人主页式重设计；Linear 冷调中性配色；新增 ResumePortal + 6 区块 + ConfigPanel + useResumeLayout；TDD 实施；代码审查通过 |
