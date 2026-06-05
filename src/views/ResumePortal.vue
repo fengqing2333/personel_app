@@ -27,7 +27,15 @@ const blockComponents = {
 
 const personalInfo = computed(() => {
   const profile = resume.getByType('profile')[0]
-  return profile || { name: '', title: '', bio: '', email: '', phone: '', location: '' }
+  if (!profile) return { name: '', title: '', bio: '', email: '', phone: '', location: '' }
+  return {
+    name: profile.name || '',
+    title: profile.title || '',
+    bio: profile.summary || '',
+    email: profile.email || '',
+    phone: profile.phone || '',
+    location: profile.location || '',
+  }
 })
 
 const accentColor = computed(() => {
@@ -38,8 +46,7 @@ function blockProps(blockId) {
   switch (blockId) {
     case 'profile':
       return {
-        bio: resume.getByType('profile')[0]?.description || '',
-        name: resume.getByType('profile')[0]?.name || ''
+        bio: resume.getByType('profile')[0]?.summary || '',
       }
     case 'experiences':
       return { title: '工作经历', items: resume.getByType('work'), itemType: 'experience' }
@@ -102,10 +109,10 @@ function blockProps(blockId) {
 
     <!-- Main content blocks -->
     <main class="resume-main">
-      <template v-for="block in layout.orderedVisibleBlocks" :key="block.id">
+      <template v-for="blockId in layout.orderedVisibleBlocks" :key="blockId">
         <component
-          :is="blockComponents[block.id]"
-          v-bind="blockProps(block.id)"
+          :is="blockComponents[blockId]"
+          v-bind="blockProps(blockId)"
         />
       </template>
     </main>
