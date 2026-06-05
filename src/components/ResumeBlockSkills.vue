@@ -47,7 +47,7 @@ const grouped = computed(() => {
             :style="{
               background: 'var(--accent)',
               color: '#ffffff',
-              opacity: 0.6 + (skill.level || 50) / 250
+              opacity: 0.6 + (skill.level ?? 50) / 250
             }"
           >
             {{ skill.name }}

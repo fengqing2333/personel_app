@@ -1,7 +1,7 @@
 <script setup>
 import { getLogoStyle } from '../data/resumeLogos.js'
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     default: ''
@@ -16,11 +16,18 @@ defineProps({
   }
 })
 
+const VALID_SCHEMAS = ['certificate', 'award', 'activity']
+
 const fieldMap = {
   certificate: { primary: 'name', secondary: 'issuer', date: 'date' },
   award: { primary: 'name', secondary: 'issuer', date: 'date' },
   activity: { primary: 'name', secondary: 'role', date: 'startDate' }
 }
+
+import { computed } from 'vue'
+const resolvedSchema = computed(() => {
+  return VALID_SCHEMAS.includes(props.schema) ? props.schema : 'certificate'
+})
 </script>
 
 <template>
@@ -53,21 +60,21 @@ const fieldMap = {
         </div>
         <div class="flex-1 min-w-0">
           <h3 class="font-semibold" style="color: var(--text)">
-            {{ item[fieldMap[schema].primary] }}
+            {{ item[fieldMap[resolvedSchema.value].primary] }}
           </h3>
           <p
-            v-if="item[fieldMap[schema].secondary]"
+            v-if="item[fieldMap[resolvedSchema.value].secondary]"
             class="text-sm"
             style="color: var(--accent)"
           >
-            {{ item[fieldMap[schema].secondary] }}
+            {{ item[fieldMap[resolvedSchema.value].secondary] }}
           </p>
           <p
-            v-if="item[fieldMap[schema].date]"
+            v-if="item[fieldMap[resolvedSchema.value].date]"
             class="text-xs mt-1"
             style="color: var(--muted)"
           >
-            {{ item[fieldMap[schema].date] }}
+            {{ item[fieldMap[resolvedSchema.value].date] }}
           </p>
           <p
             v-if="item.description"
