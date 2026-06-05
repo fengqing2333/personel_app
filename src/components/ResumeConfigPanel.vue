@@ -47,12 +47,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="open"
-    role="dialog"
-    class="config-overlay"
-    @click="onOverlayClick"
-  >
+  <Teleport to="body">
+    <div
+      v-if="open"
+      role="dialog"
+      class="config-overlay"
+      @click="onOverlayClick"
+    >
     <div class="config-panel">
       <header class="config-header">
         <h2 class="config-title">简历配置</h2>
@@ -130,6 +131,7 @@ onUnmounted(() => {
       <button class="reset-btn" @click="resetLayout">重置</button>
     </div>
   </div>
+</Teleport>
 </template>
 
 <style scoped>
