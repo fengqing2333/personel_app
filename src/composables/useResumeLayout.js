@@ -7,7 +7,7 @@
  * 单例模式：所有组件共享同一份布局配置。
  */
 
-import { ref, computed, readonly, watch } from 'vue'
+import { computed, reactive, readonly, watch } from 'vue'
 import { safeStorage } from '../utils/safeStorage'
 import { RESUME_THEMES } from '../data/resumeThemes'
 
@@ -34,7 +34,7 @@ const DEFAULT_LAYOUT = {
 let _instance = null
 let _watcherStop = null
 
-const state = ref(structuredClone(DEFAULT_LAYOUT))
+const state = reactive(structuredClone(DEFAULT_LAYOUT))
 
 /**
  * Deep merge stored data onto defaults for backward compatibility.
@@ -64,7 +64,7 @@ function mergeLayout(defaults, stored) {
 function initialize() {
   const stored = safeStorage.get(STORAGE_KEY)
   if (stored) {
-    state.value = mergeLayout(DEFAULT_LAYOUT, stored)
+    Object.assign(state, mergeLayout(DEFAULT_LAYOUT, stored))
   }
 
   // Persist on every change via deep watch
@@ -87,7 +87,7 @@ export function useResumeLayout() {
 
     /** Blocks that are visible, sorted by order ascending */
     const orderedVisibleBlocks = computed(() => {
-      return Object.entries(state.value.blocks)
+      return Object.entries(state.blocks)
         .filter(([_, block]) => block.visible)
         .map(([id, block]) => ({ id, ...block }))
         .sort((a, b) => a.order - b.order)
@@ -95,40 +95,34 @@ export function useResumeLayout() {
 
     /** CSS custom properties from the current theme */
     const themeVars = computed(() => {
-      const theme = RESUME_THEMES[state.value.themeId]
+      const theme = RESUME_THEMES[state.themeId]
       return theme ? theme.vars : {}
     })
 
     function toggleBlock(blockId) {
-      const block = state.value.blocks[blockId]
+      const block = state.blocks[blockId]
       if (block) {
-        state.value = {
-          ...state.value,
-          blocks: {
-            ...state.value.blocks,
-            [blockId]: { ...block, visible: !block.visible },
-          },
-        }
+        block.visible = !block.visible
       }
     }
 
     function setLayout(layout) {
-      state.value = { ...state.value, layout }
+      state.layout = layout
     }
 
     function setTheme(themeId) {
       if (RESUME_THEMES[themeId]) {
-        state.value = { ...state.value, themeId }
+        state.themeId = themeId
       }
       // Invalid themeId is silently ignored
     }
 
     function toggleGlow() {
-      state.value = { ...state.value, glowEnabled: !state.value.glowEnabled }
+      state.glowEnabled = !state.glowEnabled
     }
 
     function resetLayout() {
-      state.value = structuredClone(DEFAULT_LAYOUT)
+      Object.assign(state, structuredClone(DEFAULT_LAYOUT))
     }
 
     _instance = {
@@ -155,6 +149,6 @@ export function __resetForTests() {
     _watcherStop = null
   }
   _instance = null
-  state.value = structuredClone(DEFAULT_LAYOUT)
+  Object.assign(state, structuredClone(DEFAULT_LAYOUT))
   safeStorage.remove(STORAGE_KEY)
 }

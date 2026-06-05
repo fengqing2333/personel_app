@@ -29,24 +29,24 @@ describe('useResumeLayout', () => {
 
   it('initialize - no storage returns DEFAULT_LAYOUT', () => {
     const { state } = useResumeLayout()
-    expect(state.value).toEqual(DEFAULT_LAYOUT)
+    expect(state).toEqual(DEFAULT_LAYOUT)
   })
 
   it('setLayout - persists to localStorage', async () => {
     const { state, setLayout } = useResumeLayout()
     setLayout('two-column')
-    expect(state.value.layout).toBe('two-column')
+    expect(state.layout).toBe('two-column')
     await nextTick()
     expect(safeStorage.get(STORAGE_KEY).layout).toBe('two-column')
   })
 
   it('toggleBlock - flips visible field', () => {
     const { state, toggleBlock } = useResumeLayout()
-    expect(state.value.blocks.profile.visible).toBe(true)
+    expect(state.blocks.profile.visible).toBe(true)
     toggleBlock('profile')
-    expect(state.value.blocks.profile.visible).toBe(false)
+    expect(state.blocks.profile.visible).toBe(false)
     toggleBlock('profile')
-    expect(state.value.blocks.profile.visible).toBe(true)
+    expect(state.blocks.profile.visible).toBe(true)
   })
 
   it('setTheme - valid id updates themeVars', () => {
@@ -58,7 +58,7 @@ describe('useResumeLayout', () => {
   it('setTheme - invalid id is silently ignored', () => {
     const { state, setTheme } = useResumeLayout()
     setTheme('not-exist')
-    expect(state.value.themeId).toBe('linear-cool')
+    expect(state.themeId).toBe('linear-cool')
   })
 
   it('orderedVisibleBlocks - returns visible blocks sorted by order ascending', () => {
@@ -80,7 +80,7 @@ describe('useResumeLayout', () => {
     setLayout('two-column')
     toggleBlock('profile')
     resetLayout()
-    expect(state.value).toEqual(DEFAULT_LAYOUT)
+    expect(state).toEqual(DEFAULT_LAYOUT)
   })
 
   it('singleton - two calls return same reference', () => {
