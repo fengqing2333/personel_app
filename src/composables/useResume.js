@@ -2,92 +2,106 @@
  * useResume — 简历数据管理（模块级单例）
  *
  * 支持 7 种类型：work, internship, project, education, skill, certificate, profile。
- * entries 定义在模块作用域，所有组件共享同一份数据。
- * 首次调用时从 localStorage 加载，后续调用复用。
+ * v1.6.0: 数据逻辑下沉到 storageEngine，本 composable 作为薄封装保持 API 兼容。
  */
 
-import { ref } from 'vue'
-import { safeStorage } from '../utils/safeStorage'
+import { engine } from '../storage/storageEngine'
 
-const STORAGE_KEY = 'resume-data'
+// --- Legacy migrateEntries (kept for v1.9.5 test compatibility) ---
+// The actual migration now runs in storage/migration.js.
+// This thin adapter is exported for tests that call useResume().migrateEntries().
 
-/** @type {import('vue').Ref<Array<Object>>} */
-const entries = ref([])
-
-let initialized = false
-let nextId = 1
-
-function loadEntries() {
-  const raw = safeStorage.get(STORAGE_KEY, [])
-  entries.value = raw
-  if (raw.length > 0) {
-    nextId = Math.max(...raw.map(e => e.id)) + 1
-  }
+function migrateEntries(raw) {
+  return raw.map(entry => {
+    if (entry.type === 'education') {
+      const patched = { ...entry }
+      if (patched.gpa == null && patched.description) {
+        const gpaMatch = patched.description.match(/GPA\s*([\d.]+\s*\/\s*[\d.]+)/)
+        if (gpaMatch) {
+          patched.gpa = gpaMatch[1].replace(/\s+/g, ' ')
+          patched.description = patched.description.replace(/GPA\s*[\d.]+\s*\/\s*[\d.]+[·•,;\s]*\s*/, '').trim()
+        }
+      }
+      return patched
+    }
+    return entry
+  })
 }
 
-function saveEntries() {
-  safeStorage.set(STORAGE_KEY, entries.value)
-}
+// --- Singleton ---
 
-/** 测试用：重置所有内部状态 */
-export function __resetForTests() {
-  initialized = false
-  entries.value = []
-  nextId = 1
-  safeStorage.remove(STORAGE_KEY)
-}
+let _instance = null
 
 export function useResume() {
-  if (!initialized) {
-    initialized = true
-    loadEntries()
-  }
+  if (!_instance) {
+    engine.init()
 
-  function getByType(type) {
-    return entries.value
-      .filter(e => e.type === type)
-      .sort((a, b) => {
-        const aDate = a.startDate || ''
-        const bDate = b.startDate || ''
-        return bDate.localeCompare(aDate)
-      })
-  }
+    const entries = engine.getAll() // ref from engine
 
-  function add(type, data) {
-    const entry = { id: nextId++, type, ...data }
-    entries.value.push(entry)
-    saveEntries()
-    return entry
-  }
+    function getByType(type) {
+      return engine.getByType(type)
+    }
 
-  function update(id, data) {
-    const idx = entries.value.findIndex(e => e.id === id)
-    if (idx === -1) return null
-    entries.value[idx] = { ...entries.value[idx], ...data }
-    saveEntries()
-    return entries.value[idx]
-  }
+    function add(type, data) {
+      return engine.addEntry(type, data)
+    }
 
-  function remove(id) {
-    const idx = entries.value.findIndex(e => e.id === id)
-    if (idx === -1) return false
-    entries.value.splice(idx, 1)
-    saveEntries()
-    return true
-  }
+    function update(id, data) {
+      return engine.updateEntry(id, data)
+    }
 
-  function getAll() {
-    return entries.value
-  }
+    function remove(id) {
+      return engine.removeEntry(id)
+    }
 
-  return {
-    entries,
-    getByType,
-    add,
-    update,
-    remove,
-    getAll,
-    loadEntries,
-    saveEntries
+    function undoRemove() {
+      return engine.undoRemove()
+    }
+
+    function commitRemoval() {
+      engine.commitRemoval()
+    }
+
+    function setManualOrder(type, orderedIds) {
+      engine.setManualOrder(type, orderedIds)
+    }
+
+    function clearManualOrder(type) {
+      engine.clearManualOrder(type)
+    }
+
+    function getAll() {
+      return engine.getAll().value
+    }
+
+    function loadEntries() {
+      // No-op — engine.init() handles this. Kept for API compatibility.
+    }
+
+    function saveEntries() {
+      // No-op — engine persists on every mutation. Kept for API compatibility.
+    }
+
+    _instance = {
+      entries,
+      getByType,
+      add,
+      update,
+      remove,
+      undoRemove,
+      commitRemoval,
+      setManualOrder,
+      clearManualOrder,
+      migrateEntries,
+      getAll,
+      loadEntries,
+      saveEntries,
+    }
   }
+  return _instance
+}
+
+export function __resetForTests() {
+  _instance = null
+  engine.__reset()
 }

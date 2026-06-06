@@ -86,7 +86,8 @@ function init() {
     stored = migrateFromLegacyKeys()
   }
 
-  if (!stored || stored.entries.length === 0) {
+  // Seed only on first visit (no unified key AND no legacy data)
+  if (!stored) {
     const seeded = RESUME_SEED.map((item, idx) => ({ id: idx + 1, ...item }))
     _entries.value = seeded
     _layout.value = structuredClone(DEFAULT_LAYOUT)
@@ -208,7 +209,14 @@ function __reset() {
   _manualOrders.value = {}
   _nextId = 1
   _pendingRemoval = null
-  safeStorage.remove(ENGINE_KEY)
+  // Write empty-but-present record so engine.init() treats this as
+  // "user has visited before with empty data", not "first visit".
+  safeStorage.set(ENGINE_KEY, {
+    version: CURRENT_VERSION,
+    entries: [],
+    layout: structuredClone(DEFAULT_LAYOUT),
+    manualOrders: {},
+  })
 }
 
 export const engine = {

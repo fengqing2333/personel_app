@@ -28,6 +28,10 @@ describe('storageEngine', () => {
 
   describe('init', () => {
     it('injects seed on first visit (no existing data)', () => {
+      // Truly empty — no unified key
+      localStorage.clear()
+      engine.__reset()
+      localStorage.removeItem(ENGINE_KEY)
       engine.init()
       const stored = safeStorage.get(ENGINE_KEY)
       expect(stored).not.toBeNull()
@@ -38,6 +42,9 @@ describe('storageEngine', () => {
     })
 
     it('does not inject seed if entries exist in legacy key', () => {
+      localStorage.clear()
+      engine.__reset()
+      localStorage.removeItem(ENGINE_KEY)
       safeStorage.set('resume-data', [{ id: 1, type: 'work', company: 'OldCorp', position: 'Dev', startDate: '2020-01' }])
       engine.init()
       const entries = engine.getByType('work')
@@ -46,6 +53,9 @@ describe('storageEngine', () => {
     })
 
     it('migrates from legacy 4-key structure', () => {
+      localStorage.clear()
+      engine.__reset()
+      localStorage.removeItem(ENGINE_KEY)
       safeStorage.set('resume-data', [
         { id: 1, type: 'work', company: 'OldCorp', position: 'Dev', startDate: '2020-01' },
         { id: 2, type: 'project', name: 'OldProject', role: 'Dev', startDate: '2019' },
@@ -63,9 +73,12 @@ describe('storageEngine', () => {
     })
 
     it('is idempotent (does not re-inject seed on subsequent inits)', () => {
+      localStorage.clear()
+      engine.__reset()
+      localStorage.removeItem(ENGINE_KEY)
       engine.init()
       const firstLen = engine.getAll().value.length
-      engine.__reset()
+      expect(firstLen).toBeGreaterThan(0)
       engine.init()
       expect(engine.getAll().value.length).toBe(firstLen)
     })
@@ -82,6 +95,7 @@ describe('storageEngine', () => {
     })
 
     it('returns entries of multiple types when passed array', () => {
+      engine.addEntry('work', { company: 'FTJob', position: 'Dev', startDate: '2024-01' })
       engine.addEntry('internship', { company: 'MSRA', position: 'Intern', startDate: '2021-06', endDate: '2021-09' })
       const combined = engine.getByType(['work', 'internship'])
       expect(combined.every(e => e.type === 'work' || e.type === 'internship')).toBe(true)
@@ -104,8 +118,11 @@ describe('storageEngine', () => {
     })
 
     it('applies manual order when set', () => {
+      engine.addEntry('work', { company: 'A', position: 'Dev', startDate: '2023-01' })
+      engine.addEntry('work', { company: 'B', position: 'Dev', startDate: '2024-01' })
       const entries = engine.getByType('work')
       const ids = entries.map(e => e.id)
+      expect(ids.length).toBeGreaterThanOrEqual(2)
       const reversed = [...ids].reverse()
       engine.setManualOrder('work', reversed)
       const reordered = engine.getByType('work')
@@ -275,11 +292,13 @@ describe('storageEngine', () => {
   })
 
   describe('__reset', () => {
-    it('clears internal state and localStorage', () => {
+    it('clears internal state and resets localStorage to empty state', () => {
       engine.init()
       engine.addEntry('work', { company: 'X', position: 'Dev', startDate: '2024' })
       engine.__reset()
-      expect(safeStorage.get(ENGINE_KEY)).toBeNull()
+      const stored = safeStorage.get(ENGINE_KEY)
+      expect(stored).not.toBeNull()
+      expect(stored.entries).toEqual([])
       expect(engine.getAll().value).toEqual([])
     })
   })
