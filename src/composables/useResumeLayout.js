@@ -8,24 +8,8 @@
  */
 
 import { computed, reactive, readonly, watch } from 'vue'
-import { engine } from '../storage/storageEngine'
+import { engine, DEFAULT_LAYOUT } from '../storage/storageEngine'
 import { RESUME_THEMES, DEFAULT_THEME_ID } from '../data/resumeThemes'
-
-const DEFAULT_LAYOUT = {
-  layout: 'single',
-  blocks: {
-    profile:      { visible: true,  order: 0 },
-    experiences:  { visible: true,  order: 1 },
-    projects:     { visible: true,  order: 2 },
-    skills:       { visible: true,  order: 3 },
-    education:    { visible: true,  order: 4 },
-    certificates: { visible: true,  order: 5 },
-    awards:       { visible: true,  order: 6 },
-    activities:   { visible: false, order: 7 },
-  },
-  themeId: DEFAULT_THEME_ID,
-  glowEnabled: false,
-}
 
 // --- Module-level state (singleton) ---
 
