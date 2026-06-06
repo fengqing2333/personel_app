@@ -3,8 +3,6 @@ import { nextTick } from 'vue'
 import { safeStorage } from '../../utils/safeStorage'
 import { useResumeLayout, __resetForTests } from '../useResumeLayout'
 
-const STORAGE_KEY = 'resume-layout'
-
 const DEFAULT_LAYOUT = {
   layout: 'single',
   blocks: {
@@ -17,13 +15,13 @@ const DEFAULT_LAYOUT = {
     awards:       { visible: true,  order: 6 },
     activities:   { visible: false, order: 7 },
   },
-  themeId: 'linear-cool',
+  themeId: 'light-cream',
   glowEnabled: false,
 }
 
 describe('useResumeLayout', () => {
   beforeEach(() => {
-    safeStorage.remove(STORAGE_KEY)
+    localStorage.clear()
     __resetForTests()
   })
 
@@ -37,7 +35,7 @@ describe('useResumeLayout', () => {
     setLayout('two-column')
     expect(state.layout).toBe('two-column')
     await nextTick()
-    expect(safeStorage.get(STORAGE_KEY).layout).toBe('two-column')
+    expect(safeStorage.get('resume-storage-v2').layout.layout).toBe('two-column')
   })
 
   it('toggleBlock - flips visible field', () => {
@@ -58,7 +56,7 @@ describe('useResumeLayout', () => {
   it('setTheme - invalid id is silently ignored', () => {
     const { state, setTheme } = useResumeLayout()
     setTheme('not-exist')
-    expect(state.themeId).toBe('linear-cool')
+    expect(state.themeId).toBe('light-cream')
   })
 
   it('orderedVisibleBlocks - returns visible blocks sorted by order ascending', () => {
@@ -87,5 +85,43 @@ describe('useResumeLayout', () => {
     const instance1 = useResumeLayout()
     const instance2 = useResumeLayout()
     expect(instance1).toBe(instance2)
+  })
+
+  // --- v1.9.0: reorderBlocks ---
+  describe('reorderBlocks', () => {
+    it('按新顺序更新 block order', () => {
+      const { state, reorderBlocks } = useResumeLayout()
+      reorderBlocks(['profile', 'education', 'experiences', 'projects', 'skills', 'certificates', 'awards', 'activities'])
+      expect(state.blocks.education.order).toBe(1)
+      expect(state.blocks.experiences.order).toBe(2)
+      expect(state.blocks.profile.order).toBe(0)
+    })
+
+    it('orderedVisibleBlocks 反映新顺序', () => {
+      const { reorderBlocks, orderedVisibleBlocks } = useResumeLayout()
+      reorderBlocks(['profile', 'skills', 'experiences', 'projects', 'education', 'certificates', 'awards', 'activities'])
+      const ids = orderedVisibleBlocks.value.map(b => b.id)
+      expect(ids[0]).toBe('profile')
+      expect(ids[1]).toBe('skills')
+      expect(ids[2]).toBe('experiences')
+    })
+
+    it('不改变 visible 和其他属性', () => {
+      const { state, reorderBlocks } = useResumeLayout()
+      const prevVisible = { ...Object.fromEntries(Object.entries(state.blocks).map(([k, v]) => [k, v.visible])) }
+      reorderBlocks(['profile', 'education', 'experiences', 'projects', 'skills', 'certificates', 'awards', 'activities'])
+      for (const [k, v] of Object.entries(prevVisible)) {
+        expect(state.blocks[k].visible).toBe(v)
+      }
+    })
+
+    it('持久化到 localStorage', async () => {
+      const { reorderBlocks } = useResumeLayout()
+      reorderBlocks(['profile', 'education', 'experiences', 'projects', 'skills', 'certificates', 'awards', 'activities'])
+      await nextTick()
+      const stored = safeStorage.get('resume-storage-v2').layout
+      expect(stored.blocks.education.order).toBe(1)
+      expect(stored.blocks.experiences.order).toBe(2)
+    })
   })
 })

@@ -16,7 +16,7 @@ const DEFAULT_LAYOUT = {
     awards:       { visible: true,  order: 6 },
     activities:   { visible: false, order: 7 },
   },
-  themeId: 'warm-charcoal',
+  themeId: 'light-cream',
   glowEnabled: false,
 }
 

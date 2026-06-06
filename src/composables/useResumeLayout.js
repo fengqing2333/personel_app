@@ -2,16 +2,14 @@
  * useResumeLayout — 简历布局配置管理（模块级单例）
  *
  * 管理简历的布局模式、区块可见性、主题和发光效果。
- * 通过 deep watch 自动持久化到 localStorage。
+ * v1.6.0: 数据读写委托到 storageEngine，保留 reactive + deep watch 自动持久化。
  *
  * 单例模式：所有组件共享同一份布局配置。
  */
 
 import { computed, reactive, readonly, watch } from 'vue'
-import { safeStorage } from '../utils/safeStorage'
-import { RESUME_THEMES } from '../data/resumeThemes'
-
-const STORAGE_KEY = 'resume-layout'
+import { engine } from '../storage/storageEngine'
+import { RESUME_THEMES, DEFAULT_THEME_ID } from '../data/resumeThemes'
 
 const DEFAULT_LAYOUT = {
   layout: 'single',
@@ -25,7 +23,7 @@ const DEFAULT_LAYOUT = {
     awards:       { visible: true,  order: 6 },
     activities:   { visible: false, order: 7 },
   },
-  themeId: 'linear-cool',
+  themeId: DEFAULT_THEME_ID,
   glowEnabled: false,
 }
 
@@ -36,11 +34,6 @@ let _watcherStop = null
 
 const state = reactive(structuredClone(DEFAULT_LAYOUT))
 
-/**
- * Deep merge stored data onto defaults for backward compatibility.
- * If a new block is added to DEFAULT_LAYOUT in a future version,
- * old stored data won't override it — blocks are merged key-by-key.
- */
 function mergeLayout(defaults, stored) {
   const result = structuredClone(defaults)
   if (!stored) return result
@@ -62,16 +55,18 @@ function mergeLayout(defaults, stored) {
 }
 
 function initialize() {
-  const stored = safeStorage.get(STORAGE_KEY)
+  // Ensure engine is initialized first (entries etc.)
+  engine.init()
+
+  const stored = engine.getLayout()
   if (stored) {
     Object.assign(state, mergeLayout(DEFAULT_LAYOUT, stored))
   }
 
-  // Persist on every change via deep watch
   _watcherStop = watch(
     state,
     (newVal) => {
-      safeStorage.set(STORAGE_KEY, newVal)
+      engine.setLayout(newVal)
     },
     { deep: true }
   )
@@ -85,17 +80,15 @@ export function useResumeLayout() {
 
     const readonlyState = readonly(state)
 
-    /** Blocks that are visible, sorted by order ascending */
     const orderedVisibleBlocks = computed(() => {
       return Object.entries(state.blocks)
-        .filter(([_, block]) => block.visible)
+        .filter(([, block]) => block.visible)
         .map(([id, block]) => ({ id, ...block }))
         .sort((a, b) => a.order - b.order)
     })
 
-    /** CSS custom properties from the current theme */
     const themeVars = computed(() => {
-      const theme = RESUME_THEMES[state.themeId]
+      const theme = RESUME_THEMES[state.themeId] || RESUME_THEMES[DEFAULT_THEME_ID]
       return theme ? theme.vars : {}
     })
 
@@ -114,11 +107,18 @@ export function useResumeLayout() {
       if (RESUME_THEMES[themeId]) {
         state.themeId = themeId
       }
-      // Invalid themeId is silently ignored
     }
 
     function toggleGlow() {
       state.glowEnabled = !state.glowEnabled
+    }
+
+    function reorderBlocks(orderedIds) {
+      orderedIds.forEach((id, index) => {
+        if (state.blocks[id]) {
+          state.blocks[id].order = index
+        }
+      })
     }
 
     function resetLayout() {
@@ -133,16 +133,13 @@ export function useResumeLayout() {
       setLayout,
       setTheme,
       toggleGlow,
+      reorderBlocks,
       resetLayout,
     }
   }
   return _instance
 }
 
-/**
- * Test cleanup: stop watcher, reset singleton, clear storage.
- * Imported by test files via named export.
- */
 export function __resetForTests() {
   if (_watcherStop) {
     _watcherStop()
@@ -150,5 +147,5 @@ export function __resetForTests() {
   }
   _instance = null
   Object.assign(state, structuredClone(DEFAULT_LAYOUT))
-  safeStorage.remove(STORAGE_KEY)
+  engine.__reset()
 }
